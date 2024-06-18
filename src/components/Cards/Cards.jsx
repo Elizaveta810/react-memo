@@ -35,7 +35,6 @@ function getTimerValue(startDate, endDate) {
     seconds,
   };
 }
-
 /**
  * Основной компонент игры, внутри него находится вся игровая механика и логика.
  * pairsCount - сколько пар будет в игре
@@ -132,17 +131,18 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
         openCardsWithoutPair[1].open = false;
         openCardsWithoutPair[0].open = false;
       }, 1000);
-    setCountTry(countTry - 1);
+      setCountTry(countTry - 1);
 
-    const playerLost = countTry === 0;
+      const playerLost = countTry === 0;
 
-    // "Игрок проиграл", т.к на поле есть две открытые карты без пары
-    if (playerLost) {
-      finishGame(STATUS_LOST);
-      return;
+      // "Игрок проиграл", т.к на поле есть две открытые карты без пары
+      if (playerLost) {
+        finishGame(STATUS_LOST);
+        return;
+      }
+
+      // ... игра продолжается
     }
-
-    // ... игра продолжается
   };
 
   const isGameEnded = status === STATUS_LOST || status === STATUS_WON;
