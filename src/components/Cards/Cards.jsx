@@ -133,7 +133,7 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
       }, 1000);
       setCountTry(countTry - 1);
 
-      const playerLost = countTry === 0;
+      const playerLost = countTry === 1;
 
       // "Игрок проиграл", т.к на поле есть две открытые карты без пары
       if (playerLost) {
