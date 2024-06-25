@@ -36,6 +36,7 @@ function getTimerValue(startDate, endDate) {
     seconds,
   };
 }
+
 /**
  * Основной компонент игры, внутри него находится вся игровая механика и логика.
  * pairsCount - сколько пар будет в игре
@@ -87,7 +88,6 @@ export function Cards({ pairsCount = 3, previewSeconds = 5 }) {
    * - "Игрок проиграл", если на поле есть две открытые карты без пары
    * - "Игра продолжается", если не случилось первых двух условий
    */
-
   function alohomora() {
     if (achievements.includes(1)) {
       alert("Подсказкой можно воспользоваться только 1 раз");

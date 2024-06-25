@@ -11,7 +11,6 @@ export default function ToolTipGame(isAchievment, i) {
     refSetTimeout.current = setTimeout(() => {
       setShowToolTip(true);
     }, 750);
-    // console.log(isAchievment);
   };
 
   const onMouseLeaveHandler = () => {

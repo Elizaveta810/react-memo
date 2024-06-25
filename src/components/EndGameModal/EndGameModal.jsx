@@ -2,7 +2,7 @@ import styles from "./EndGameModal.module.css";
 import { Button } from "../Button/Button";
 import deadImageUrl from "./images/dead.png";
 import celebrationImageUrl from "./images/celebration.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { postLeader } from "../../api";
 import { useLeaders } from "../../context/hooks/useLeaders";
 import { Link } from "react-router-dom";
@@ -15,7 +15,10 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
   });
   const { setLeaders, leaders } = useLeaders();
   const [btnDisabled, setBtnDisabled] = useState(false);
-  setLeaders(leaders.sort((a, b) => +a.time - +b.time));
+
+  useEffect(() => {
+    setLeaders(leaders.sort((a, b) => +a.time - +b.time));
+  }, [leaders, setLeaders]);
 
   const handleInputChange = e => {
     const { name, value } = e.target;
@@ -72,7 +75,7 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
         {gameDurationMinutes.toString().padStart("2", "0")}.{gameDurationSeconds.toString().padStart("2", "0")}
       </div>
 
-      <Button onClick={onClick}>Начать сначала</Button>
+      <Button onClick={onClick}>Играть снова</Button>
       <div>
         <Link to="/leaderboard">
           <p>Перейти к лидерборду</p>
