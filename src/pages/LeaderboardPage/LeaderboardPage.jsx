@@ -2,15 +2,14 @@ import { Link } from "react-router-dom";
 import { Button } from "../../components/Button/Button";
 import styles from "./LeaderboardPage.module.css";
 import { useLeaders } from "../../context/hooks/useLeaders";
-import unsuper1 from "./unsuper1.svg";
-import super1 from "./super1.svg";
-import unsuper2 from "./unsuper2.svg";
-import super2 from "./super2.svg";
+import ToolTipGame from "../../components/ToolTip/ToolTipGame";
+import ToolTipSuper from "../../components/ToolTip/ToolTipSuper";
 
 export function LeaderboardPage() {
   const { leaders, setLeaders } = useLeaders();
   setLeaders(leaders.sort((a, b) => +a.time - +b.time));
   let leadersAchievments = leaders.map(leader => leader.achievements);
+
   console.log(leadersAchievments);
   return (
     <div>
@@ -35,7 +34,7 @@ export function LeaderboardPage() {
             <p className={styles.name}>Время</p>
           </div>
         </div>
-        {leaders.map(leader => (
+        {leaders.map((leader, i) => (
           <div key={leader.id} className={styles.block}>
             <div className={styles.grid}>
               <p className={styles.name}>{leaders.indexOf(leader) + 1}</p>
@@ -44,10 +43,8 @@ export function LeaderboardPage() {
               <p className={styles.name}>{leader.name}</p>
             </div>
             <div className={styles.grid}>
-              <div>
-                {leader.achievements.includes(1) ? <img src={super1} alt="" /> : <img src={unsuper1} alt="" />}
-                {leader.achievements.includes(2) ? <img src={super2} alt="" /> : <img src={unsuper2} alt="" />}
-              </div>
+              <ToolTipGame isAchievment={leader.achievements.includes(1)} />
+              <ToolTipSuper isAchievment={leader.achievements.includes(2)} />
             </div>
             <div className={styles.grid}>
               <p className={styles.name}>{leader.time}</p>
