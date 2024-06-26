@@ -1,22 +1,24 @@
 import styles from "./EndGameModal.module.css";
-
 import { Button } from "../Button/Button";
-
 import deadImageUrl from "./images/dead.png";
 import celebrationImageUrl from "./images/celebration.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { postLeader } from "../../api";
 import { useLeaders } from "../../context/hooks/useLeaders";
 import { Link } from "react-router-dom";
 
-export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, onClick }) {
+export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, achievements, onClick }) {
   const [newLeader, setNewLeader] = useState({
     name: "",
     time: gameDurationSeconds,
+    achievements: achievements,
   });
   const { setLeaders, leaders } = useLeaders();
   const [btnDisabled, setBtnDisabled] = useState(false);
-  setLeaders(leaders.sort((a, b) => +a.time - +b.time));
+
+  useEffect(() => {
+    setLeaders(leaders.sort((a, b) => +a.time - +b.time));
+  }, [leaders, setLeaders]);
 
   const handleInputChange = e => {
     const { name, value } = e.target;
@@ -27,10 +29,12 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
   };
   const handleFormSubmit = e => {
     e.preventDefault();
-    postLeader({ name: newLeader.name, time: newLeader.time })
+    postLeader({ name: newLeader.name, time: newLeader.time, achievements: newLeader.achievements })
       .then(leaders => {
         setLeaders(leaders.leaders);
         setBtnDisabled(!btnDisabled);
+        // Добавьте код для очистки поля ввода
+        setNewLeader({ name: "", time: "", achievements: "" });
       })
       .catch(error => {
         console.log(error);
@@ -52,8 +56,9 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
       <img className={styles.image} src={imgSrc} alt={imgAlt} />
       <h2 className={styles.title}>{title}</h2>
       {isLeader && (
-        <div>
+        <div className={styles.inputDiv}>
           <input
+            className={styles.inputSave}
             type="text"
             name="name"
             value={newLeader.name}
@@ -62,8 +67,8 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
             placeholder="Пользователь"
             autoFocus=""
           />
-          <button onClick={handleFormSubmit} disabled={btnDisabled}>
-            Сохранить результат
+          <button className={styles.btnsave} onClick={handleFormSubmit} disabled={btnDisabled}>
+            Сохранить
           </button>
         </div>
       )}
@@ -72,7 +77,7 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
         {gameDurationMinutes.toString().padStart("2", "0")}.{gameDurationSeconds.toString().padStart("2", "0")}
       </div>
 
-      <Button onClick={onClick}>Начать сначала</Button>
+      <Button onClick={onClick}>Играть снова</Button>
       <div>
         <Link to="/leaderboard">
           <p>Перейти к лидерборду</p>
