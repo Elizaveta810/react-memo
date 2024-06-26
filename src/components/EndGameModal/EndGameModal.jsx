@@ -33,6 +33,8 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
       .then(leaders => {
         setLeaders(leaders.leaders);
         setBtnDisabled(!btnDisabled);
+        // Добавьте код для очистки поля ввода
+        setNewLeader({ name: "", time: "", achievements: "" });
       })
       .catch(error => {
         console.log(error);
