@@ -68,7 +68,7 @@ export function EndGameModal({ isWon, gameDurationSeconds, gameDurationMinutes, 
             autoFocus=""
           />
           <button className={styles.btnsave} onClick={handleFormSubmit} disabled={btnDisabled}>
-            Сохранить результат
+            Сохранить
           </button>
         </div>
       )}
